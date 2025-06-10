@@ -1,0 +1,796 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌱 SerreConnect - Gestion Intelligente de Serre</title>
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+    <div class="container">
+        <header>
+            <nav>
+                <div class="logo">
+                    <i class="fas fa-seedling"></i>
+                    SerreConnect
+                </div>
+                <div class="nav-links">
+                    <a href="#" onclick="showSection('dashboard')" class="active">
+                        <i class="fas fa-tachometer-alt"></i> Tableau de Bord
+                    </a>
+                    <a href="#" onclick="showSection('sensors')">
+                        <i class="fas fa-thermometer-half"></i> Capteurs
+                    </a>
+                    <a href="#" onclick="showSection('actuators')">
+                        <i class="fas fa-cogs"></i> Actionneurs
+                    </a>
+                    <a href="#" onclick="showSection('data')">
+                        <i class="fas fa-chart-line"></i> Données
+                    </a>
+                    <a href="#" onclick="showSection('alerts')">
+                        <i class="fas fa-bell"></i> Alertes
+                    </a>
+                    <a href="#" onclick="showSection('auth')">
+                        <i class="fas fa-user"></i> Connexion
+                    </a>
+                </div>
+            </nav>
+        </header>
+
+        <!-- Dashboard Section -->
+        <div id="dashboard-section">
+            <div class="dashboard">
+                <div class="sensors-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-thermometer-half"></i>
+                        État des Capteurs
+                    </h2>
+                    <div class="sensors-grid">
+                        <div class="sensor-card" id="temperature-card">
+                            <div class="sensor-header">
+                                <div class="sensor-info">
+                                    <div class="sensor-icon">
+                                        <i class="fas fa-thermometer-half"></i>
+                                    </div>
+                                    <div class="sensor-title">Température</div>
+                                </div>
+                                <div class="sensor-status status-optimal">
+                                    <i class="fas fa-check-circle"></i> Optimal
+                                </div>
+                            </div>
+                            <div class="sensor-value" id="temp-value">22.5°C</div>
+                            <div class="sensor-details">
+                                <small>Plage optimale: 18-25°C</small>
+                            </div>
+                        </div>
+
+                        <div class="sensor-card" id="humidity-card">
+                            <div class="sensor-header">
+                                <div class="sensor-info">
+                                    <div class="sensor-icon">
+                                        <i class="fas fa-tint"></i>
+                                    </div>
+                                    <div class="sensor-title">Humidité</div>
+                                </div>
+                                <div class="sensor-status status-warning">
+                                    <i class="fas fa-exclamation-triangle"></i> Attention
+                                </div>
+                            </div>
+                            <div class="sensor-value" id="humidity-value">75.2%</div>
+                            <div class="sensor-details">
+                                <small>Plage optimale: 60-70%</small>
+                            </div>
+                        </div>
+
+                        <div class="sensor-card" id="light-card">
+                            <div class="sensor-header">
+                                <div class="sensor-info">
+                                    <div class="sensor-icon">
+                                        <i class="fas fa-sun"></i>
+                                    </div>
+                                    <div class="sensor-title">Luminosité</div>
+                                </div>
+                                <div class="sensor-status status-optimal">
+                                    <i class="fas fa-check-circle"></i> Optimal
+                                </div>
+                            </div>
+                            <div class="sensor-value" id="light-value">850 lux</div>
+                            <div class="sensor-details">
+                                <small>Plage optimale: 800-1200 lux</small>
+                            </div>
+                        </div>
+
+                        <div class="sensor-card" id="co2-card">
+                            <div class="sensor-header">
+                                <div class="sensor-info">
+                                    <div class="sensor-icon">
+                                        <i class="fas fa-wind"></i>
+                                    </div>
+                                    <div class="sensor-title">CO₂</div>
+                                </div>
+                                <div class="sensor-status status-critical">
+                                    <i class="fas fa-times-circle"></i> Critique
+                                </div>
+                            </div>
+                            <div class="sensor-value" id="co2-value">520 ppm</div>
+                            <div class="sensor-details">
+                                <small>Plage optimale: 350-450 ppm</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="controls-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-cogs"></i>
+                        Contrôles Automatiques
+                    </h2>
+                    <div class="actuator-controls">
+                        <div class="actuator-item">
+                            <div class="actuator-info">
+                                <div class="actuator-icon">
+                                    <i class="fas fa-shower"></i>
+                                </div>
+                                <div>
+                                    <div class="actuator-title">Irrigation</div>
+                                    <small>Arrosage automatique</small>
+                                </div>
+                            </div>
+                            <div class="toggle-switch" onclick="toggleActuator(this, 'irrigation')"></div>
+                        </div>
+
+                        <div class="actuator-item">
+                            <div class="actuator-info">
+                                <div class="actuator-icon">
+                                    <i class="fas fa-fan"></i>
+                                </div>
+                                <div>
+                                    <div class="actuator-title">Ventilation</div>
+                                    <small>Système de ventilation</small>
+                                </div>
+                            </div>
+                            <div class="toggle-switch active" onclick="toggleActuator(this, 'ventilation')"></div>
+                        </div>
+
+                        <div class="actuator-item">
+                            <div class="actuator-info">
+                                <div class="actuator-icon">
+                                    <i class="fas fa-lightbulb"></i>
+                                </div>
+                                <div>
+                                    <div class="actuator-title">Éclairage</div>
+                                    <small>Lumière artificielle</small>
+                                </div>
+                            </div>
+                            <div class="toggle-switch" onclick="toggleActuator(this, 'lighting')"></div>
+                        </div>
+
+                        <div class="actuator-item">
+                            <div class="actuator-info">
+                                <div class="actuator-icon">
+                                    <i class="fas fa-fire"></i>
+                                </div>
+                                <div>
+                                    <div class="actuator-title">Chauffage</div>
+                                    <small>Système de chauffage</small>
+                                </div>
+                            </div>
+                            <div class="toggle-switch" onclick="toggleActuator(this, 'heating')"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="charts-section">
+                <h2 class="section-title">
+                    <i class="fas fa-chart-line"></i>
+                    Évolution des Paramètres (24h)
+                </h2>
+                <div class="chart-container">
+                    <canvas id="sensorsChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Authentication Section -->
+        <div id="auth-section" class="hidden">
+            <div class="auth-container">
+                <h2 class="text-center mb-20">
+                    <i class="fas fa-leaf"></i> Accès Serre Connectée
+                </h2>
+                
+                <div id="login-form">
+                    <h3 class="mb-20">Connexion</h3>
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label for="loginEmail">
+                                <i class="fas fa-envelope"></i> Email
+                            </label>
+                            <input type="email" id="loginEmail" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="loginPassword">
+                                <i class="fas fa-lock"></i> Mot de passe
+                            </label>
+                            <input type="password" id="loginPassword" required>
+                        </div>
+                        <button type="submit" class="btn">
+                            <i class="fas fa-sign-in-alt"></i> Se connecter
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="showRegister()">
+                            <i class="fas fa-user-plus"></i> S'inscrire
+                        </button>
+                    </form>
+                </div>
+
+                <div id="register-form" class="hidden">
+                    <h3 class="mb-20">Inscription</h3>
+                    <form id="registerForm">
+                        <div class="form-group">
+                            <label for="registerEmail">
+                                <i class="fas fa-envelope"></i> Email
+                            </label>
+                            <input type="email" id="registerEmail" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="registerPassword">
+                                <i class="fas fa-lock"></i> Mot de passe
+                            </label>
+                            <input type="password" id="registerPassword" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmPassword">
+                                <i class="fas fa-lock"></i> Confirmer le mot de passe
+                            </label>
+                            <input type="password" id="confirmPassword" required>
+                        </div>
+                        <button type="submit" class="btn">
+                            <i class="fas fa-user-plus"></i> S'inscrire
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="showLogin()">
+                            <i class="fas fa-sign-in-alt"></i> Déjà inscrit ?
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Section -->
+        <div id="data-section" class="hidden">
+            <div class="charts-section">
+                <h2 class="section-title">
+                    <i class="fas fa-database"></i>
+                    Historique des Données
+                </h2>
+                <div class="data-table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Horodatage</th>
+                                <th>Capteur</th>
+                                <th>Valeur</th>
+                                <th>Unité</th>
+                                <th>Statut</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dataTableBody">
+                            <!-- Les données seront chargées ici via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alerts Section -->
+        <div id="alerts-section" class="hidden">
+            <div class="charts-section">
+                <h2 class="section-title">
+                    <i class="fas fa-bell"></i>
+                    Système d'Alertes
+                </h2>
+                <div id="alertsContainer">
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <div>
+                            <strong>Humidité élevée</strong><br>
+                            L'humidité dépasse 75%. Vérifiez la ventilation.
+                        </div>
+                    </div>
+                    <div class="alert alert-danger">
+                        <i class="fas fa-times-circle"></i>
+                        <div>
+                            <strong>CO₂ critique</strong><br>
+                            Niveau de CO₂ trop élevé (520 ppm). Action immédiate requise.
+                        </div>
+                    </div>
+                    <div class="alert alert-success">
+                        <i class="fas fa-check-circle"></i>
+                        <div>
+                            <strong>Température optimale</strong><br>
+                            La température est dans la plage idéale.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script>
+        // Variables globales
+        let currentUser = null;
+        let sensorData = {
+            temperature: [],
+            humidity: [],
+            light: [],
+            co2: []
+        };
+
+        // Gestion de la navigation
+        function showSection(sectionName) {
+            // Masquer toutes les sections
+            const sections = ['dashboard', 'sensors', 'actuators', 'data', 'alerts', 'auth'];
+            sections.forEach(section => {
+                const element = document.getElementById(section + '-section');
+                if (element) {
+                    element.classList.add('hidden');
+                }
+            });
+
+            // Afficher la section demandée
+            const targetSection = document.getElementById(sectionName + '-section');
+            if (targetSection) {
+                targetSection.classList.remove('hidden');
+            } else {
+                // Si la section n'existe pas, afficher le dashboard
+                document.getElementById('dashboard-section').classList.remove('hidden');
+            }
+
+            // Mettre à jour la navigation active
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Charger les données spécifiques à la section
+            if (sectionName === 'data') {
+                loadDataTable();
+            } else if (sectionName === 'dashboard') {
+                initChart();
+            }
+        }
+
+        // Gestion de l'authentification
+        function showLogin() {
+            document.getElementById('login-form').classList.remove('hidden');
+            document.getElementById('register-form').classList.add('hidden');
+        }
+
+        function showRegister() {
+            document.getElementById('login-form').classList.add('hidden');
+            document.getElementById('register-form').classList.remove('hidden');
+        }
+
+        // Gestion des formulaires
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            // Simulation de connexion
+            if (email && password) {
+                currentUser = { email: email };
+                showAlert('Connexion réussie !', 'success');
+                showSection('dashboard');
+            } else {
+                showAlert('Email ou mot de passe incorrect', 'danger');
+            }
+        });
+
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                showAlert('Les mots de passe ne correspondent pas', 'danger');
+                return;
+            }
+            
+            if (email && password) {
+                showAlert('Inscription réussie ! Vous pouvez maintenant vous connecter.', 'success');
+                showLogin();
+            }
+        });
+
+        // Gestion des actionneurs
+        function toggleActuator(element, actuatorType) {
+            element.classList.toggle('active');
+            const isActive = element.classList.contains('active');
+            
+            // Simulation d'envoi de commande
+            console.log(`${actuatorType}: ${isActive ? 'ON' : 'OFF'}`);
+            
+            // Afficher une notification
+            showAlert(`${actuatorType} ${isActive ? 'activé' : 'désactivé'}`, 'success');
+            
+            // Ici vous pouvez ajouter l'appel AJAX vers le serveur
+            // updateActuator(actuatorType, isActive);
+        }
+
+        // Fonction pour afficher les alertes
+        function showAlert(message, type) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'warning' ? 'exclamation-triangle' : 'times-circle'}"></i>
+                ${message}
+            `;
+            
+            document.body.appendChild(alertDiv);
+            
+            // Supprimer l'alerte après 3 secondes
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 3000);
+        }
+
+        // Simulation de données en temps réel
+        function generateSensorData() {
+            return {
+                temperature: 18 + Math.random() * 12, // 18-30°C
+                humidity: 55 + Math.random() * 25,    // 55-80%
+                light: 600 + Math.random() * 800,    // 600-1400 lux
+                co2: 350 + Math.random() * 200       // 350-550 ppm
+            };
+        }
+
+        // Mise à jour des capteurs
+        function updateSensorValues() {
+            const data = generateSensorData();
+            
+            // Mettre à jour les valeurs affichées
+            document.getElementById('temp-value').textContent = data.temperature.toFixed(1) + '°C';
+            document.getElementById('humidity-value').textContent = data.humidity.toFixed(1) + '%';
+            document.getElementById('light-value').textContent = Math.round(data.light) + ' lux';
+            document.getElementById('co2-value').textContent = Math.round(data.co2) + ' ppm';
+            
+            // Mettre à jour les statuts
+            updateSensorStatus('temperature', data.temperature, 18, 25);
+            updateSensorStatus('humidity', data.humidity, 60, 70);
+            updateSensorStatus('light', data.light, 800, 1200);
+            updateSensorStatus('co2', data.co2, 350, 450);
+            
+            // Stocker les données pour le graphique
+            const timestamp = new Date();
+            Object.keys(data).forEach(sensor => {
+                sensorData[sensor].push({
+                    x: timestamp,
+                    y: data[sensor]
+                });
+                
+                // Garder seulement les 50 derniers points
+                if (sensorData[sensor].length > 50) {
+                    sensorData[sensor].shift();
+                }
+            });
+            
+            // Mettre à jour le graphique si il existe
+            if (window.sensorsChart) {
+                updateChart();
+            }
+        }
+
+        // Mise à jour du statut des capteurs
+        function updateSensorStatus(sensorType, value, minOptimal, maxOptimal) {
+            const card = document.getElementById(sensorType + '-card');
+            const statusElement = card.querySelector('.sensor-status');
+            
+            let status, statusClass, icon;
+            
+            if (value >= minOptimal && value <= maxOptimal) {
+                status = 'Optimal';
+                statusClass = 'status-optimal';
+                icon = 'check-circle';
+            } else if (value < minOptimal * 0.8 || value > maxOptimal * 1.3) {
+                status = 'Critique';
+                statusClass = 'status-critical';
+                icon = 'times-circle';
+            } else {
+                status = 'Attention';
+                statusClass = 'status-warning';
+                icon = 'exclamation-triangle';
+            }
+            
+            statusElement.className = `sensor-status ${statusClass}`;
+            statusElement.innerHTML = `<i class="fas fa-${icon}"></i> ${status}`;
+        }
+
+        // Initialisation du graphique
+        function initChart() {
+            const ctx = document.getElementById('sensorsChart');
+            if (!ctx) return;
+            
+            window.sensorsChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    datasets: [
+                        {
+                            label: 'Température (°C)',
+                            data: sensorData.temperature,
+                            borderColor: '#e74c3c',
+                            backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                            tension: 0.4
+                        },
+                        {
+                            label: 'Humidité (%)',
+                            data: sensorData.humidity,
+                            borderColor: '#3498db',
+                            backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                            tension: 0.4
+                        },
+                        {
+                            label: 'Luminosité (lux/10)',
+                            data: sensorData.light.map(d => ({x: d.x, y: d.y/10})),
+                            borderColor: '#f39c12',
+                            backgroundColor: 'rgba(243, 156, 18, 0.1)',
+                            tension: 0.4
+                        },
+                        {
+                            label: 'CO₂ (ppm/10)',
+                            data: sensorData.co2.map(d => ({x: d.x, y: d.y/10})),
+                            borderColor: '#27ae60',
+                            backgroundColor: 'rgba(39, 174, 96, 0.1)',
+                            tension: 0.4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            type: 'time',
+                            time: {
+                                unit: 'minute'
+                            }
+                        },
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Évolution des Paramètres de la Serre'
+                        }
+                    }
+                }
+            });
+        }
+
+        // Mise à jour du graphique
+        function updateChart() {
+            if (window.sensorsChart) {
+                window.sensorsChart.data.datasets[0].data = sensorData.temperature;
+                window.sensorsChart.data.datasets[1].data = sensorData.humidity;
+                window.sensorsChart.data.datasets[2].data = sensorData.light.map(d => ({x: d.x, y: d.y/10}));
+                window.sensorsChart.data.datasets[3].data = sensorData.co2.map(d => ({x: d.x, y: d.y/10}));
+                window.sensorsChart.update('none');
+            }
+        }
+
+        // Chargement du tableau de données
+        function loadDataTable() {
+            const tbody = document.getElementById('dataTableBody');
+            if (!tbody) return;
+            
+            tbody.innerHTML = '';
+            
+            // Simuler des données historiques
+            const sensors = ['temperature', 'humidity', 'light', 'co2'];
+            const units = ['°C', '%', 'lux', 'ppm'];
+            
+            for (let i = 0; i < 20; i++) {
+                const sensorIndex = Math.floor(Math.random() * sensors.length);
+                const sensor = sensors[sensorIndex];
+                const unit = units[sensorIndex];
+                const data = generateSensorData();
+                const value = data[sensor].toFixed(1);
+                
+                const date = new Date(Date.now() - i * 30000); // 30 secondes d'intervalle
+                
+                let status = 'Optimal';
+                let statusClass = 'status-optimal';
+                
+                if (sensor === 'co2' && data[sensor] > 450) {
+                    status = 'Critique';
+                    statusClass = 'status-critical';
+                } else if (sensor === 'humidity' && data[sensor] > 70) {
+                    status = 'Attention';
+                    statusClass = 'status-warning';
+                }
+                
+                const row = tbody.insertRow();
+                row.innerHTML = `
+                    <td>${date.toLocaleString('fr-FR')}</td>
+                    <td><i class="fas fa-${sensor === 'temperature' ? 'thermometer-half' : sensor === 'humidity' ? 'tint' : sensor === 'light' ? 'sun' : 'wind'}"></i> ${sensor.charAt(0).toUpperCase() + sensor.slice(1)}</td>
+                    <td>${value}</td>
+                    <td>${unit}</td>
+                    <td><span class="sensor-status ${statusClass}">${status}</span></td>
+                `;
+            }
+        }
+
+        // Communication avec le serveur (simulation)
+        function sendSensorData(sensorType, value) {
+            // Ici vous ajouteriez l'appel AJAX réel
+            /*
+            fetch('api/sensors.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    sensor_type: sensorType,
+                    value: value,
+                    serre_id: 1
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Data sent:', data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+            */
+        }
+
+        function updateActuator(actuatorType, status) {
+            // Ici vous ajouteriez l'appel AJAX réel
+            /*
+            fetch('api/actuators.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    actuator_type: actuatorType,
+                    status: status,
+                    serre_id: 1
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Actuator updated:', data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+            */
+        }
+
+        // Initialisation au chargement de la page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Générer des données initiales
+            for (let i = 0; i < 10; i++) {
+                const data = generateSensorData();
+                const timestamp = new Date(Date.now() - (10 - i) * 60000); // 1 minute d'intervalle
+                
+                Object.keys(data).forEach(sensor => {
+                    sensorData[sensor].push({
+                        x: timestamp,
+                        y: data[sensor]
+                    });
+                });
+            }
+            
+            // Première mise à jour
+            updateSensorValues();
+            
+            // Initialiser le graphique
+            setTimeout(initChart, 100);
+            
+            // Mettre à jour les données toutes les 5 secondes
+            setInterval(updateSensorValues, 5000);
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+// ========================
+// EXEMPLE DE LECTURE PORT SÉRIE (TIVA)
+// ========================
+
+/*
+<?php
+// Exemple de lecture du port série pour carte TIVA
+function readSerialData($port = 'COM3', $baudrate = 9600) {
+    if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+        // Windows
+        $handle = fopen($port, "r+b");
+    } else {
+        // Linux/Mac
+        $handle = fopen("/dev/ttyUSB0", "r+b");
+    }
+    
+    if ($handle) {
+        $data = fgets($handle);
+        fclose($handle);
+        
+        // Parser les données reçues (format attendu: "TEMP:22.5,HUM:65.2,LIGHT:850,CO2:420")
+        $sensors = array();
+        $pairs = explode(',', trim($data));
+        
+        foreach ($pairs as $pair) {
+            $parts = explode(':', $pair);
+            if (count($parts) == 2) {
+                $sensor_type = strtolower(trim($parts[0]));
+                $value = floatval(trim($parts[1]));
+                
+                // Convertir les noms de capteurs
+                switch($sensor_type) {
+                    case 'temp':
+                        $sensor_type = 'temperature';
+                        break;
+                    case 'hum':
+                        $sensor_type = 'humidity';
+                        break;
+                }
+                
+                $sensors[$sensor_type] = $value;
+            }
+        }
+        
+        return $sensors;
+    }
+    
+    return false;
+}
+
+// Utilisation dans un script de collecte de données
+$sensorData = readSerialData();
+if ($sensorData) {
+    $database = new Database();
+    $db = $database->getConnection();
+    $sensor = new Sensor($db);
+    
+    foreach ($sensorData as $type => $value) {
+        $sensor->sensor_type = $type;
+        $sensor->value = $value;
+        $sensor->serre_id = 1;
+        
+        switch($type) {
+            case 'temperature':
+                $sensor->unit = '°C';
+                break;
+            case 'humidity':
+                $sensor->unit = '%';
+                break;
+            case 'light':
+                $sensor->unit = 'lux';
+                break;
+            case 'co2':
+                $sensor->unit = 'ppm';
+                break;
+        }
+        
+        $sensor->create();
+    }
+}
+?>
+*/
+?>
