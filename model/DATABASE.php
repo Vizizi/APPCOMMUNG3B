@@ -10,10 +10,10 @@ Structure MVC pour Serre Connectée
 // DATABASE.PHP (Model)
 // ========================
 class Database {
-    private $host = 'herogu.garageisep.com ';
-    private $db_name = '8PDuqiQ06b_bdd_serre';
-    private $username = 'QbpibuPkpX_bdd_serre';
-    private $password = 'm0K9xnXfmvX3Gnen';
+    private $host = '185.216.26.53';
+    private $db_name = 'app_g3';
+    private $username = 'g3';
+    private $password = 'azertyg3';
     private $conn;
 
     public function getConnection() {
